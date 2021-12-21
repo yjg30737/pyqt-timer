@@ -1,7 +1,6 @@
 import sys
 
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QWidget, QPushButton, QDialog, QSizePolicy, QApplication, QHBoxLayout, QVBoxLayout
+from PyQt5.QtWidgets import QWidget, QPushButton, QDialog, QSizePolicy, QHBoxLayout, QVBoxLayout
 from PyQt5.QtCore import Qt, QTime, QTimer, pyqtSignal, QSettings
 
 from pyqt_resource_helper.pyqtResourceHelper import PyQtResourceHelper
@@ -10,7 +9,7 @@ from pyqt_timer.settingsDialog.settingsDialog import SettingsDialog
 from pyqt_timer.timerLabel import TimerLabel
 
 
-class TimerGadget(QWidget):
+class Timer(QWidget):
     printSignal = pyqtSignal()
 
     def __init__(self, parent=None):
@@ -167,10 +166,3 @@ class TimerGadget(QWidget):
 
             self.__timer_lbl.setText(task_time_text)
             self.__startPauseBtn.setEnabled(task_time_text != '00:00:00')
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    timerGadget = TimerGadget()
-    timerGadget.show()
-    app.exec_()
