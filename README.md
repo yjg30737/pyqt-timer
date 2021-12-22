@@ -42,3 +42,5 @@ Ticking timer
 
 ## Note
 When time is over pyqt-notifier window will pop up.
+
+This package make new file(timerSettings.ini) in main script to save the hour, minute, second chosen by user.
