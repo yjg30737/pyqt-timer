@@ -11,6 +11,9 @@ PyQt5 >= 5.8
 * <a href="https://github.com/yjg30737/pyqt-notifier.git">pyqt-notifier</a>
 * <a href="https://github.com/yjg30737/pyqt-resource-helper.git">pyqt-resource-helper</a>
 
+## Usage
+* Play/pause/stop after complete the timer settings (press the settings icon or double-click the label(00:00:00)
+
 ## Example
 
 ### Code Example
