@@ -9,6 +9,7 @@ PyQt5 >= 5.8
 
 ## Included Package
 * <a href="https://github.com/yjg30737/pyqt-notifier.git">pyqt-notifier</a>
+* <a href="https://github.com/yjg30737/pyqt-resource-helper.git">pyqt-resource-helper</a>
 
 ## Example
 
