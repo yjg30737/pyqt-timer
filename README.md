@@ -12,7 +12,8 @@ PyQt5 >= 5.8
 * <a href="https://github.com/yjg30737/pyqt-resource-helper.git">pyqt-resource-helper</a>
 
 ## Usage
-* Play/pause/stop after complete the timer settings (press the settings icon or double-click the label(00:00:00)
+* Being able to play/pause/stop the timer after complete the timer settings (press the settings icon or double-click the label(00:00:00)
+* When time is over, notifier will show up at the bottom right of the system background. Refresh button on the notifier make the timer operate itself again.
 
 ## Example
 
