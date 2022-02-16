@@ -51,4 +51,5 @@ When time is over pyqt-notifier window will pop up.
 This package make new file(timerSettings.ini) in main script to save the hour, minute, second chosen by user.
 
 ## See also
-<a href="https://github.com/yjg30737/pyqt-transparent-timer.git">pyqt-transparent-timer</a>
+* <a href="https://github.com/yjg30737/pyqt-timer-label.git">pyqt-timer-label</a>
+* <a href="https://github.com/yjg30737/pyqt-transparent-timer.git">pyqt-transparent-timer</a>
