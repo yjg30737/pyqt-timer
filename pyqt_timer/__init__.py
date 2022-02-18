@@ -1,2 +1,1 @@
-from .timer import *
-from .timerLabel import *
+from .timer import Timer
