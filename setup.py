@@ -13,6 +13,7 @@ setup(
     install_requires=[
         'PyQt5>=5.8',
         'pyqt-resource-helper @ git+https://git@github.com/yjg30737/pyqt-resource-helper.git@main',
-        'pyqt-notifier @ git+https://git@github.com/yjg30737/pyqt-notifier.git@main'
+        'pyqt-notifier @ git+https://git@github.com/yjg30737/pyqt-notifier.git@main',
+        'pyqt-timer-label @ git+https://git@github.com/yjg30737/pyqt-timer-label.git@main'
     ]
 )
