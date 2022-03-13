@@ -23,9 +23,9 @@ class Timer(QWidget):
     def __initUi(self):
         self.setWindowFlags(Qt.WindowCloseButtonHint)
 
-        self.__startPauseBtn = QPushButton()
-        self.__stopBtn = QPushButton()
-        self.__settingsBtn = QPushButton()
+        self.__startPauseBtn = SvgIconPushButton()
+        self.__stopBtn = SvgIconPushButton()
+        self.__settingsBtn = SvgIconPushButton()
 
         self.__startPauseBtn.setToolTip('Start')
         self.__stopBtn.setToolTip('Stop')
