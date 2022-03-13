@@ -7,7 +7,7 @@ setup(
     author_email='yjg30737@gmail.com',
     license='MIT',
     packages=find_packages(),
-    package_data={'pyqt_timer.style': ['button.css'], 'pyqt_timer.ico': ['play.png', 'pause.png', 'stop.png', 'settings.png']},
+    package_data={'pyqt_timer.ico': ['play.svg', 'pause.svg', 'stop.svg', 'settings.svg']},
     description='Simple timer made out of PyQt',
     url='https://github.com/yjg30737/pyqt-timer.git',
     install_requires=[
