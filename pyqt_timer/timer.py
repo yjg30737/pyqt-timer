@@ -60,6 +60,11 @@ class Timer(QWidget):
 
         self.__timerInit()
 
+    def __setStartHMS(self):
+        self.__timerLbl.setStartHour(self.__hour)
+        self.__timerLbl.setStartMinute(self.__min)
+        self.__timerLbl.setStartSecond(self.__sec)
+
     def __timerInit(self):
         self.__startPauseBtn.setObjectName('start')
 
@@ -67,9 +72,7 @@ class Timer(QWidget):
         self.__stopBtn.clicked.connect(self.__timerLbl.reset)
         self.__settingsBtn.clicked.connect(self.__settings)
 
-        self.__timerLbl.setStartHour(self.__hour)
-        self.__timerLbl.setStartMinute(self.__min)
-        self.__timerLbl.setStartSecond(self.__sec)
+        self.__setStartHMS()
 
         self.__startPauseBtn.setEnabled(False)
         self.__stopBtn.setEnabled(False)
@@ -149,3 +152,5 @@ class Timer(QWidget):
 
             self.__timerLbl.setText(task_time_text)
             self.__startPauseBtn.setEnabled(task_time_text != '00:00:00')
+
+            self.__setStartHMS()
