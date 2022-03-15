@@ -44,8 +44,8 @@ class Timer(QWidget):
             lay.addWidget(btn)
         lay.setContentsMargins(0, 0, 0, 0)
 
-        bottomWidget = QWidget()
-        bottomWidget.setLayout(lay)
+        btnWidget = QWidget()
+        btnWidget.setLayout(lay)
 
         self.__timerLbl = TimerLabel()
         self.__timerLbl.doubleClicked.connect(self.__settings)
@@ -54,7 +54,7 @@ class Timer(QWidget):
 
         lay = QVBoxLayout()
         lay.addWidget(self.__timerLbl)
-        lay.addWidget(bottomWidget)
+        lay.addWidget(btnWidget)
 
         self.setLayout(lay)
 
