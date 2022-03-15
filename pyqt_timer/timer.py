@@ -10,8 +10,6 @@ from pyqt_svg_icon_pushbutton import SvgIconPushButton
 
 
 class Timer(QWidget):
-    printSignal = pyqtSignal()
-
     def __init__(self, parent=None):
         super().__init__(parent)
         self.__settings_struct = QSettings('timerSettings.ini', QSettings.IniFormat)
