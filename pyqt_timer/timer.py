@@ -53,6 +53,7 @@ class Timer(QWidget):
         self._timerLbl.doubleClicked.connect(self.__settings)
         self._timerLbl.resetSignal.connect(self.__reset)
         self._timerLbl.stopped.connect(self.__stop)
+        self._timerLbl.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
 
         lay = QVBoxLayout()
         lay.addWidget(self._timerLbl)
