@@ -22,6 +22,7 @@ class Timer(QWidget):
         self._sec = int(self.__settings_struct.value('sec', 0))
 
         self._startPauseBtn = SvgIconPushButton()
+        self._refreshBtn = SvgIconPushButton()
         self._stopBtn = SvgIconPushButton()
         self._settingsBtn = SvgIconPushButton()
 
@@ -32,12 +33,14 @@ class Timer(QWidget):
         self.setWindowFlags(Qt.WindowCloseButtonHint)
 
         self._startPauseBtn.setToolTip('Start')
+        self._refreshBtn.setToolTip('Refresh')
         self._stopBtn.setToolTip('Stop')
         self._settingsBtn.setToolTip('Settings')
 
-        btns = [self._startPauseBtn, self._stopBtn, self._settingsBtn]
+        btns = [self._startPauseBtn, self._refreshBtn, self._stopBtn, self._settingsBtn]
 
         self._startPauseBtn.setIcon('ico/play.svg')
+        self._refreshBtn.setIcon('ico/refresh.svg')
         self._stopBtn.setIcon('ico/stop.svg')
         self._settingsBtn.setIcon('ico/settings.svg')
 
@@ -72,12 +75,14 @@ class Timer(QWidget):
         self._startPauseBtn.setObjectName('start')
 
         self._startPauseBtn.clicked.connect(self.__start)
+        self._refreshBtn.clicked.connect(self._timerLbl.refresh)
         self._stopBtn.clicked.connect(self._timerLbl.reset)
         self._settingsBtn.clicked.connect(self.__settings)
 
         self.__setStartHMS()
 
         self._startPauseBtn.setEnabled(False)
+        self._refreshBtn.setEnabled(False)
         self._stopBtn.setEnabled(False)
 
     def __start(self):
@@ -88,6 +93,7 @@ class Timer(QWidget):
                 self._startPauseBtn.setObjectName('pause')
                 self._startPauseBtn.setIcon('ico/pause.svg')
                 self._startPauseBtn.clicked.connect(self.__pauseOrRestart)
+                self._refreshBtn.setEnabled(True)
                 self._stopBtn.setEnabled(True)
         except Exception as e:
             print(e)
@@ -130,6 +136,7 @@ class Timer(QWidget):
         self._startPauseBtn.clicked.connect(self.__start)
 
         self._settingsBtn.setEnabled(True)
+        self._refreshBtn.setEnabled(False)
         self._stopBtn.setEnabled(False)
 
         self._timerLbl.doubleClicked.connect(self.__settings)
