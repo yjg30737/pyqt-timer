@@ -127,6 +127,9 @@ class Timer(QWidget):
         self.__notifier.addWidgets([notifierRefreshBtn])
         self.__notifier.show()
 
+    def __refresh(self):
+        self._timerLbl.refresh()
+
     def __reset(self):
         self._startPauseBtn.setToolTip('Start')
         self._startPauseBtn.setObjectName('start')
