@@ -128,7 +128,10 @@ class Timer(QWidget):
         self.__notifier.show()
 
     def __refresh(self):
-        self._timerLbl.refresh()
+        if self._timerLbl.isPaused():
+            self._timerLbl.refresh()
+        else:
+            self._timerLbl.reset()
 
     def __reset(self):
         self._startPauseBtn.setToolTip('Start')
