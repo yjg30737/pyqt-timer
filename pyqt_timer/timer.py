@@ -81,7 +81,7 @@ class Timer(QWidget):
 
         self.__setStartHMS()
 
-        self._startPauseBtn.setEnabled(False)
+        self._startPauseBtn.setEnabled(self._timerLbl.text() != '00:00:00')
         self._refreshBtn.setEnabled(False)
         self._stopBtn.setEnabled(False)
 
