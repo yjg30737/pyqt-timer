@@ -170,3 +170,8 @@ class Timer(QWidget):
             self._startPauseBtn.setEnabled(task_time_text != '00:00:00')
 
             self.__setStartHMS()
+
+    def keyPressEvent(self, e):
+        if e.key() == Qt.Key_Space:
+            self.__pauseOrRestart()
+        return super().keyPressEvent(e)
