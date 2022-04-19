@@ -76,7 +76,7 @@ class Timer(QWidget):
         self._startPauseBtn.setObjectName('start')
 
         self._startPauseBtn.clicked.connect(self.__start)
-        self._refreshBtn.clicked.connect(self._timerLbl.refresh)
+        self._refreshBtn.clicked.connect(self.__refresh)
         self._stopBtn.clicked.connect(self._timerLbl.reset)
         self._settingsBtn.clicked.connect(self.__settings)
 
