@@ -30,8 +30,6 @@ class Timer(QWidget):
         self._timerLbl = TimerLabel()
 
     def __initUi(self):
-        self.setWindowFlags(Qt.WindowCloseButtonHint)
-
         self._startPauseBtn.setToolTip('Start')
         self._refreshBtn.setToolTip('Refresh')
         self._stopBtn.setToolTip('Stop')
