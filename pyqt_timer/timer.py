@@ -66,6 +66,9 @@ class Timer(QWidget):
 
         self.__timerInit()
 
+        # for preventing the "hard to make window smaller" problem
+        self.setMinimumWidth(self.sizeHint().width())
+
     def __setStartHMS(self):
         self._timerLbl.setStartHour(self._hour)
         self._timerLbl.setStartMinute(self._min)
