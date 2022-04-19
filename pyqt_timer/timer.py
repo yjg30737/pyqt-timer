@@ -1,7 +1,7 @@
 import sys
 
 from PyQt5.QtWidgets import QWidget, QPushButton, QDialog, QSizePolicy, QHBoxLayout, QVBoxLayout
-from PyQt5.QtCore import Qt, QTime, pyqtSignal, QSettings
+from PyQt5.QtCore import Qt, QTime, QSettings
 
 from pyqt_notifier.pyqtNotifier import NotifierWidget
 from pyqt_timer.settingsDialog.settingsDialog import SettingsDialog
