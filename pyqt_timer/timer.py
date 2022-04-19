@@ -1,179 +1,151 @@
 import sys
 
-from PyQt5.QtWidgets import QWidget, QPushButton, QDialog, QSizePolicy, QHBoxLayout, QVBoxLayout
-from PyQt5.QtCore import Qt, QTime, QSettings
+from PyQt5.QtCore import pyqtSignal, QTime, QTimer
 
-from pyqt_notifier.pyqtNotifier import NotifierWidget
-from pyqt_timer.settingsDialog.settingsDialog import SettingsDialog
-from pyqt_timer_label.timerLabel import TimerLabel
-from pyqt_svg_icon_pushbutton import SvgIconPushButton
+from pyqt_responsive_label.responsiveLabel import ResponsiveLabel
 
 
-class Timer(QWidget):
+class TimerLabel(ResponsiveLabel):
+    doubleClicked = pyqtSignal()
+    prepared = pyqtSignal()
+    started = pyqtSignal()
+    paused = pyqtSignal()
+    restarted = pyqtSignal()
+    resetSignal = pyqtSignal()
+    refreshed = pyqtSignal()
+    stopped = pyqtSignal()
+
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.__settings_struct = QSettings('timerSettings.ini', QSettings.IniFormat)
         self.__initVal()
         self.__initUi()
 
     def __initVal(self):
-        self._hour = int(self.__settings_struct.value('hour', 0))
-        self._min = int(self.__settings_struct.value('min', 0))
-        self._sec = int(self.__settings_struct.value('sec', 0))
+        self.__start_hour = 0
+        self.__start_min = 0
+        self.__start_sec = 0
 
-        self._startPauseBtn = SvgIconPushButton(self)
-        self._refreshBtn = SvgIconPushButton(self)
-        self._stopBtn = SvgIconPushButton(self)
-        self._settingsBtn = SvgIconPushButton(self)
+        self.__end_hour = 0
+        self.__end_min = 0
+        self.__end_sec = 0
 
-        self._btnWidget = QWidget()
-        self._timerLbl = TimerLabel()
+        self.__startTime = QTime()
+        self.__endTime = QTime()
+        self.__format = 'hh:mm:ss'
+
+        self.__timer = QTimer(self)
+        self.__timer_interval = -1
+
+        # init end time (00:00:00 by default)
+        self.setEndHMS()
 
     def __initUi(self):
-        self._startPauseBtn.setToolTip('Start')
-        self._refreshBtn.setToolTip('Refresh')
-        self._stopBtn.setToolTip('Stop')
-        self._settingsBtn.setToolTip('Settings')
+        self.setStartHMS()
 
-        btns = [self._startPauseBtn, self._refreshBtn, self._stopBtn, self._settingsBtn]
-
-        self._startPauseBtn.setIcon('ico/play.svg')
-        self._refreshBtn.setIcon('ico/refresh.svg')
-        self._stopBtn.setIcon('ico/stop.svg')
-        self._settingsBtn.setIcon('ico/settings.svg')
-
-        lay = QHBoxLayout()
-        lay.setAlignment(Qt.AlignCenter)
-        for btn in btns:
-            btn.setMaximumWidth(btn.sizeHint().width())
-            lay.addWidget(btn)
-        lay.setContentsMargins(0, 0, 0, 0)
-
-        self._btnWidget.setLayout(lay)
-
-        self._timerLbl.doubleClicked.connect(self.__settings)
-        self._timerLbl.resetSignal.connect(self.__reset)
-        self._timerLbl.stopped.connect(self.__stop)
-        self._timerLbl.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
-
-        lay = QVBoxLayout()
-        lay.addWidget(self._timerLbl)
-        lay.addWidget(self._btnWidget)
-        lay.setAlignment(self._btnWidget, Qt.AlignCenter)
-
-        self.setLayout(lay)
-
-        self.__timerInit()
-
-        # for preventing the "hard to make window smaller" problem
-        self.setMinimumSize(self.sizeHint())
-
-    def __setStartHMS(self):
-        self._timerLbl.setStartHour(self._hour)
-        self._timerLbl.setStartMinute(self._min)
-        self._timerLbl.setStartSecond(self._sec)
-
-    def __timerInit(self):
-        self._startPauseBtn.setObjectName('start')
-
-        self._startPauseBtn.clicked.connect(self.__start)
-        self._refreshBtn.clicked.connect(self.__refresh)
-        self._stopBtn.clicked.connect(self._timerLbl.reset)
-        self._settingsBtn.clicked.connect(self.__settings)
-
-        self.__setStartHMS()
-
-        self._startPauseBtn.setEnabled(self._timerLbl.text() != '00:00:00')
-        self._refreshBtn.setEnabled(False)
-        self._stopBtn.setEnabled(False)
-
-    def __start(self):
-        try:
-            if self._startPauseBtn.objectName() == 'start':
-                self.__prepare()
-                self._timerLbl.start()
-                self._startPauseBtn.setObjectName('pause')
-                self._startPauseBtn.setIcon('ico/pause.svg')
-                self._startPauseBtn.clicked.connect(self.__pauseOrRestart)
-                self._refreshBtn.setEnabled(True)
-                self._stopBtn.setEnabled(True)
-        except Exception as e:
-            print(e)
-            print(sys.exc_info()[2].tb_lineno)
-            print(sys.exc_info())
-
-    def __prepare(self):
-        self._settingsBtn.setEnabled(False)
-        self._timerLbl.doubleClicked.disconnect(self.__settings)
-
-    def __pauseOrRestart(self):
-        try:
-            if self._startPauseBtn.objectName() == 'pause':
-                self._timerLbl.pause()
-                self._startPauseBtn.setIcon('ico/play.svg')
-                self._startPauseBtn.setToolTip('Restart')
-                self._startPauseBtn.setObjectName('restart')
-            elif self._startPauseBtn.objectName() == 'restart':
-                self._timerLbl.restart()
-                self._startPauseBtn.setIcon('ico/pause.svg')
-                self._startPauseBtn.setToolTip('Pause')
-                self._startPauseBtn.setObjectName('pause')
-        except Exception as e:
-            print(e)
-
-    def __notifyTimesUp(self):
-        self.__notifier = NotifierWidget('Notice', 'Times up.')
-        notifierRefreshBtn = QPushButton('Restart')
-        notifierRefreshBtn.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
-        notifierRefreshBtn.clicked.connect(self.__start)
-        self.__notifier.addWidgets([notifierRefreshBtn])
-        self.__notifier.show()
-
-    def __refresh(self):
-        if self._timerLbl.isPaused():
-            self._timerLbl.refresh()
+    def setTimerReverse(self, f: bool):
+        if f:
+            self.__timer_interval = -1
         else:
-            self._timerLbl.reset()
+            self.__timer_interval = 1
 
-    def __reset(self):
-        self._startPauseBtn.setToolTip('Start')
-        self._startPauseBtn.setObjectName('start')
-        self._startPauseBtn.setIcon('ico/play.svg')
+    def setStartHMS(self):
+        self.__startTime.setHMS(self.__start_hour, self.__start_min, self.__start_sec)
+        time_left_text = self.__startTime.toString(self.__format)
+        self.setText(time_left_text)
 
-        self._startPauseBtn.clicked.disconnect(self.__pauseOrRestart)
-        self._startPauseBtn.clicked.connect(self.__start)
+    def setEndHMS(self):
+        self.__endTime.setHMS(self.__end_hour, self.__end_min, self.__end_sec)
+        self.__end_text_time = self.__endTime.addSecs(-1).toString(self.__format)
 
-        self._settingsBtn.setEnabled(True)
-        self._refreshBtn.setEnabled(False)
-        self._stopBtn.setEnabled(False)
+    def setStartHour(self, h: int):
+        self.__start_hour = h
+        self.setStartHMS()
 
-        self._timerLbl.doubleClicked.connect(self.__settings)
+    def setStartMinute(self, m: int):
+        self.__start_min = m
+        self.setStartHMS()
 
-    def __stop(self):
+    def setStartSecond(self, s: int):
+        self.__start_sec = s
+        self.setStartHMS()
+
+    def setEndHour(self, h: int):
+        self.__end_hour = h
+        self.__setEndHMS()
+
+    def setEndMinute(self, m: int):
+        self.__end_min = m
+        self.__setEndHMS()
+
+    def setEndSecond(self, s: int):
+        self.__end_sec = s
+        self.__setEndHMS()
+
+    def __prepareToTimer(self):
+        self.__timerTicking()
+        self.prepared.emit()
+
+    def start(self):
+        self.__timer.timeout.connect(self.__timerTicking)
+        self.__timer.singleShot(self.__startTime.msec(), self.__prepareToTimer)
+        # update the timer every millisecond
+        self.__timer.start(1)
+        self.started.emit()
+
+    def __isTimesUp(self, time_left_text):
+        return self.__end_text_time == time_left_text
+
+    def __timerTicking(self):
         try:
-            self.__reset()
-            self.__notifyTimesUp()
+            self.__startTime = self.__startTime.addMSecs(self.__timer_interval)
+            time_left_text = self.__startTime.toString(self.__format)
+            if self.__isTimesUp(time_left_text):
+                self.stop()
+            else:
+                self.setText(time_left_text)
         except Exception as e:
             print(e)
             print(sys.exc_info()[2].tb_lineno)
             print(sys.exc_info())
 
-    def __settings(self):
-        dialog = SettingsDialog()
-        reply = dialog.exec()
-        if reply == QDialog.Accepted:
-            self._hour, self._min, self._sec = dialog.get_time()
+    def pause(self):
+        self.__timer.stop()
+        self.paused.emit()
 
-            # self.__show_event_f = dialog.get_show_event_list_flag()
-            self.__taskTimeLeft = QTime(self._hour, self._min, self._sec)
-            task_time_text = self.__taskTimeLeft.toString('hh:mm:ss')
+    def restart(self):
+        self.__timer.start()
+        self.restarted.emit()
 
-            self._timerLbl.setText(task_time_text)
-            self._startPauseBtn.setEnabled(task_time_text != '00:00:00')
+    def __resetStartTime(self):
+        self.__startTime = QTime(self.__start_hour, self.__start_min, self.__start_sec)
+        self.setText(self.__startTime.toString(self.__format))
 
-            self.__setStartHMS()
+    def __resetTimer(self):
+        self.__resetStartTime()
+        self.__timer.stop()
+        self.__timer.timeout.disconnect(self.__timerTicking)
 
-    def keyPressEvent(self, e):
-        if e.key() == Qt.Key_Space:
-            self.__pauseOrRestart()
-        return super().keyPressEvent(e)
+    def reset(self):
+        self.__resetTimer()
+        self.resetSignal.emit()
+
+    def refresh(self):
+        self.__resetStartTime()
+        self.refreshed.emit()
+
+    def stop(self):
+        try:
+            self.__resetTimer()
+            self.__timer.stop()
+            self.stopped.emit()
+        except Exception as e:
+            print(e)
+            print(sys.exc_info()[2].tb_lineno)
+            print(sys.exc_info())
+
+    def isPaused(self) -> bool:
+        return self.__timer.isActive()
+
+    def mouseDoubleClickEvent(self, e):
+        self.doubleClicked.emit()
+        return super().mouseDoubleClickEvent(e)
