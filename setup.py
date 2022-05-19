@@ -12,8 +12,8 @@ setup(
     url='https://github.com/yjg30737/pyqt-timer.git',
     install_requires=[
         'PyQt5>=5.8',
-        'pyqt-notifier @ git+https://git@github.com/yjg30737/pyqt-notifier.git@main',
-        'pyqt-timer-label @ git+https://git@github.com/yjg30737/pyqt-timer-label.git@main',
-        'pyqt-svg-icon-pushbutton @ git+https://git@github.com/yjg30737/pyqt-svg-icon-pushbutton.git@main'
+        'pyqt-notifier>=0.0.1',
+        'pyqt-timer-label>=0.0.1',
+        'pyqt-svg-button>=0.0.1'
     ]
 )

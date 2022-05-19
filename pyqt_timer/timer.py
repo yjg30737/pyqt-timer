@@ -6,7 +6,7 @@ from PyQt5.QtCore import Qt, QTime, QSettings
 from pyqt_notifier.pyqtNotifier import NotifierWidget
 from pyqt_timer.settingsDialog.settingsDialog import SettingsDialog
 from pyqt_timer_label.timerLabel import TimerLabel
-from pyqt_svg_icon_pushbutton import SvgIconPushButton
+from pyqt_svg_button import SvgButton
 
 
 class Timer(QWidget):
