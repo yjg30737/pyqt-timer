@@ -21,10 +21,10 @@ class Timer(QWidget):
         self._min = int(self.__settings_struct.value('min', 0))
         self._sec = int(self.__settings_struct.value('sec', 0))
 
-        self._startPauseBtn = SvgIconPushButton(self)
-        self._refreshBtn = SvgIconPushButton(self)
-        self._stopBtn = SvgIconPushButton(self)
-        self._settingsBtn = SvgIconPushButton(self)
+        self._startPauseBtn = SvgButton(self)
+        self._refreshBtn = SvgButton(self)
+        self._stopBtn = SvgButton(self)
+        self._settingsBtn = SvgButton(self)
 
         self._btnWidget = QWidget()
         self._timerLbl = TimerLabel(self)
